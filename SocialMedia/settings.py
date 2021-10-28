@@ -15,6 +15,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Local apps
+    'accounts.apps.AccountsConfig',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
@@ -83,3 +86,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Substituting a custom User model
+AUTH_USER_MODEL = 'accounts.User'
+
+# CUSTOM AUTHENTICATION
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.authenticated.EmailBackend',
+]
