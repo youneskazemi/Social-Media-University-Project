@@ -47,10 +47,10 @@ class UserLoginForm(forms.Form):
 class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = MyUser
-        fields = ('username', 'email', 'date_of_birth')
+        fields = ('username', 'email',)
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your Username'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Your Email'}),
         }
         help_texts = {
             'username': '',
