@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     # Third-party apps
     'social_django',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,11 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '613075060213-liuk9aanalkvjaq3uc4chbb4d6497mnc.a
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000'
 SOCIAL_AUTH_USER_MODEL = 'accounts.User'
+
+# ARVAN CLOUD
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_ACCESS_KEY_ID = '85ff0b31-d967-4645-bc6f-b7aac0730504'
+AWS_S3_SECRET_ACCESS_KEY = '2f6077ec7582a46a7dcd8d7834b84fdd394510230af209e71b2d6a9797050a78'
+AWS_STORAGE_BUCKET_NAME = 'paradox-uni'
+AWS_S3_ENDPOINT_URL = 'https://s3.ir-thr-at1.arvanstorage.com'

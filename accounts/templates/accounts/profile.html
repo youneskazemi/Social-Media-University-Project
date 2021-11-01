@@ -4,12 +4,12 @@
 {% endblock title %}
 
 {% block content %}
-
-    <div class="card rounded mx-auto" style="width: 18rem;">
-        <img class="card-img-top" src="#" alt="Card image cap">
+ <img class="rounded-circle float-left mr-2" src="{{ user.profile.image.url }}" alt="Card image cap" width="150px" height="150px" style="object-fit: cover" >
+    <div class="card rounded mx-auto bg-dark text-white">
         <div class="card-body">
             <h5 class="card-title">{{ user.username }}</h5>
             <p class="card-text">{{ user.profile.bio }}</p>
+            <a class="btn btn-primary card-footer" href="{% url 'accounts:user_edit_profile' %}">Edit Profile</a>
         </div>
     </div>
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .forms import UserLoginForm, UserRegistrationForm
+from .forms import UserLoginForm, UserRegistrationForm, ProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -62,3 +62,25 @@ class UserProfile(View):
     def get(self, request, username):
         user = get_object_or_404(MyUser, username=username)
         return render(request, self.template_name, {'user': user})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile updated successfully', 'success')
+            return redirect('accounts:user_profile', request.user.username)
+
+
+class UserEditProfile(View):
+    form_class = ProfileForm
+    template_name = 'accounts/edit_profile.html'
+
+    def get(self, request):
+        return render(request, self.template_name, {'form': self.form_class(instance=request.user.profile)})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile updated successfully', 'success')
+            return redirect('accounts:user_profile', request.user.username)

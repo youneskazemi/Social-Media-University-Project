@@ -1,5 +1,5 @@
 from django import forms
-from .models import User as MyUser
+from .models import User as MyUser, Profile
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 
@@ -65,3 +65,9 @@ class UserRegistrationForm(forms.ModelForm):
         if self.cleaned_data['email'] == 'test':
             raise forms.ValidationError('error')
         return self.cleaned_data['email']
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('full_name', 'age', 'image', 'bio')
