@@ -5,6 +5,12 @@
 
 {% block content %}
 
-    <h2>{{ user.username }}</h2>
+    <div class="card rounded mx-auto" style="width: 18rem;">
+        <img class="card-img-top" src="#" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{ user.username }}</h5>
+            <p class="card-text">{{ user.profile.bio }}</p>
+        </div>
+    </div>
 
 {% endblock content %}
