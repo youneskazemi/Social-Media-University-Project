@@ -18,6 +18,8 @@ INSTALLED_APPS = [
     # Local apps
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
+    # Third-party apps
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -53,8 +55,12 @@ WSGI_APPLICATION = 'SocialMedia.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'uni-social-media',
+        'USER': 'postgres',
+        'PASSWORD': '28',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -92,6 +98,26 @@ AUTH_USER_MODEL = 'accounts.User'
 
 # CUSTOM AUTHENTICATION
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
     'accounts.authenticated.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+
 ]
+
+# Oath AUTHENTICATION GOOGLE SETTINGS
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '613075060213-liuk9aanalkvjaq3uc4chbb4d6497mnc.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'http://127.0.0.1:8000'
+SOCIAL_AUTH_USER_MODEL = 'accounts.User'

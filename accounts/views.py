@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .forms import UserLoginForm, UserRegistrationForm
 from django.contrib.auth import authenticate, login, logout
@@ -53,3 +53,12 @@ class UserRegister(View):
         else:
             messages.error(request, "Error", 'danger')
         return render(request, self.template_name, {'form': form})
+
+
+class UserProfile(View):
+    form_class = None
+    template_name = 'accounts/profile.html'
+
+    def get(self, request, username):
+        user = get_object_or_404(MyUser, username=username)
+        return render(request, self.template_name, {'user': user})
