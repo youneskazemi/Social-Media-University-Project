@@ -18,7 +18,11 @@
 
     </div>
     {% if request.user == user %}
-        <a class="btn btn-primary d-block col-md-6 mx-auto" href="{% url 'accounts:user_edit_profile' %}">Edit
-            Profile</a> {% endif %}
+        <div class="mt-5 text-center">
+        <a class="btn btn-primary col-md-5" href="{% url 'accounts:user_edit_profile' %}">Edit
+            Profile</a>
+        <a class="btn btn-danger col-md-5" href="{% url 'core:add_post' %}">+Post</a>
+        </div>
+    {% endif %}
 
 {% endblock content %}
