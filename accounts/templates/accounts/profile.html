@@ -4,13 +4,21 @@
 {% endblock title %}
 
 {% block content %}
- <img class="rounded-circle float-left mr-2" src="{{ user.profile.image.url }}" alt="Card image cap" width="150px" height="150px" style="object-fit: cover" >
-    <div class="card rounded mx-auto bg-dark text-white">
-        <div class="card-body">
-            <h5 class="card-title">{{ user.username }}</h5>
-            <p class="card-text">{{ user.profile.bio }}</p>
-            <a class="btn btn-primary card-footer" href="{% url 'accounts:user_edit_profile' %}">Edit Profile</a>
+    <div class="d-flex align-items-center col-md-10">
+        <img class="rounded-circle" src="{{ user.profile.image.url }}" alt="Card image cap" width="150px"
+             height="150px">
+        <div class="card rounded mx-auto bg-dark text-white">
+            <div class="card-body">
+                <h5 class="card-title">{{ user.username }}</h5>
+                <p class="card-text">{{ user.profile.bio }}</p>
+
+            </div>
+
         </div>
+
     </div>
+    {% if request.user == user %}
+        <a class="btn btn-primary d-block col-md-6 mx-auto" href="{% url 'accounts:user_edit_profile' %}">Edit
+            Profile</a> {% endif %}
 
 {% endblock content %}
