@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from .models import Post
 from .forms import AddPostForm
 from django.utils.text import slugify
 from django.contrib import messages
@@ -10,7 +11,7 @@ class Home(View):
     template_name = 'core/home.html'
 
     def get(self, request):
-        return render(request, self.template_name)
+        return render(request, self.template_name, {'posts': Post.objects.all()})
 
 
 class AddPost(View):

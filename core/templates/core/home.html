@@ -2,7 +2,17 @@
 {% block title %}
     Home
 {% endblock title %}
-
 {% block content %}
-    <h1>Hello</h1>
+    <div class="d-flex flex-column align-items-center">
+        {% for post in posts %}
+            <div class="card bg-dark text-white col-md-8 mb-3">
+                <div class="card-header h4 text-center"><a href="#">{{ post.title }}</a></div>
+                <div class="card-body text-center">{{ post.body }}</div>
+                <div class="card-footer">by <a
+                        href="{% url 'accounts:user_profile' post.user.username %}">@{{ post.user }}</a><small
+                        class="float-right">{{ post.updated }}</small></div>
+            </div>
+
+        {% endfor %}
+    </div>
 {% endblock content %}
