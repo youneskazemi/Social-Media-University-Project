@@ -4,7 +4,8 @@ from .forms import UserLoginForm, UserRegistrationForm, ProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import User as MyUser
+from .models import User as MyUser, Profile
+from core.models import Post
 
 
 class UserLogin(View):
@@ -47,7 +48,8 @@ class UserRegister(View):
         form = self.form_class(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            MyUser.objects.create_user(email=cd['email'], username=cd['username'], password=cd['password1'])
+            user = MyUser.objects.create_user(email=cd['email'], username=cd['username'], password=cd['password1'])
+            Profile.objects.create(user=user, full_name=user.username)
             messages.success(request, 'You registered successfully', 'success')
             return redirect('core:home')
         else:
@@ -61,7 +63,8 @@ class UserProfile(View):
 
     def get(self, request, username):
         user = get_object_or_404(MyUser, username=username)
-        return render(request, self.template_name, {'user': user})
+        posts = Post.objects.filter(user=user)
+        return render(request, self.template_name, {'user': user, 'posts': posts})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES, instance=request.user.profile)

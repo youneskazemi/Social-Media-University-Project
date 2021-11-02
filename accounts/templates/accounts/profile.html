@@ -4,25 +4,36 @@
 {% endblock title %}
 
 {% block content %}
-    <div class="d-flex align-items-center col-md-10">
-        <img class="rounded-circle" src="{{ user.profile.image.url }}" alt="Card image cap" width="150px"
-             height="150px">
-        <div class="card rounded mx-auto bg-dark text-white">
-            <div class="card-body">
-                <h5 class="card-title">{{ user.username }}</h5>
-                <p class="card-text">{{ user.profile.bio }}</p>
+    <div class="d-flex align-items-center col-md-12">
+        <img class="rounded-circle" src="{{ user.profile.image.url }}" alt="Card image cap" width="200"
+             height="200" style="object-fit: cover">
+        <div class="card rounded mx-auto bg-dark text-white col-md-9">
+            <p class="card-header">{{ user.username }}</p>
+            <p class="card-body">{{ user.profile.bio }}</p>
 
-            </div>
 
         </div>
 
     </div>
     {% if request.user == user %}
-        <div class="mt-5 text-center">
-        <a class="btn btn-primary col-md-5" href="{% url 'accounts:user_edit_profile' %}">Edit
-            Profile</a>
-        <a class="btn btn-danger col-md-5" href="{% url 'core:add_post' %}">+Post</a>
+        <div class="text-center">
+            <a class="btn btn-primary col-md-2" href="{% url 'accounts:user_edit_profile' %}">Edit
+                Profile</a>
+            <a class="btn btn-danger col-md-2" href="{% url 'core:add_post' %}">+Post</a>
         </div>
     {% endif %}
+
+    <div class="d-flex align-items-stretch flex-wrap mt-2 col-md-12 justify-content-center">
+        {% for post in posts %}
+            <div class="card bg-dark text-white m-1" style="width: 32.2222222%">
+                <div class="card-header h4 text-center"><a href="#">{{ post.title }}</a></div>
+                <div class="card-body text-center">{{ post.body }}</div>
+                <div class="card-footer">by <a
+                        href="{% url 'accounts:user_profile' post.user.username %}">@{{ post.user }}</a><small
+                        class="float-right">{{ post.updated }}</small></div>
+            </div>
+
+        {% endfor %}
+    </div>
 
 {% endblock content %}
