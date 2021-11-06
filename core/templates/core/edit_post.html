@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+    ADD POST
+{% endblock title %}
+
+{% block content %}
+
+    <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <p>Title: {{ form.title }}</p>
+        <img src="{{ post.image.url }}" width="150px" class="rounded m-1"/>
+        <p>{{ form.image }}</p>
+        <p>Body: {{ form.body }}</p>
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+
+{% endblock content %}

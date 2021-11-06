@@ -25,8 +25,20 @@
 
     <div class="d-flex align-items-stretch flex-wrap mt-2 col-md-12 justify-content-center">
         {% for post in posts %}
-            <div class="card bg-dark text-white m-1" style="width: 30.33333333%; object-fit: cover">
-              <img class="card-img-top bg-secondary" src="{{ post.image.url }}" alt="{{ post.title}}" width="250px" height="250" style="object-fit: contain">
+
+            <div class="card bg-dark text-white m-1 position-relative" style="width: 32.33333333%;">
+                {% if request.user == user %}
+                    <div class="position-absolute m-1 rounded" style="top:0;right: 0">
+                        <a class="btn btn-info rounded-circle p-2"
+                           href="{% url 'core:edit_post' post.id %}"></a>
+                        <a class="btn btn-danger rounded-circle p-2"
+                           href="{% url 'core:delete_post' post.id %}"></a>
+
+
+                    </div>
+                {% endif %}
+                <img class="card-img-top bg-secondary" src="{{ post.image.url }}" alt="{{ post.title }}" width="250px"
+                     height="250" style="object-fit: contain">
                 <div class="card-header h4 text-center"><a href="#">{{ post.title }}</a></div>
                 <div class="card-body text-center">{{ post.body }}</div>
                 <div class="card-footer">by <a
