@@ -22,7 +22,7 @@ class AddPost(View):
         return render(request, self.template_name, {'form': self.form_class})
 
     def post(self, request):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user

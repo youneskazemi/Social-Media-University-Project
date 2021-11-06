@@ -25,7 +25,8 @@
 
     <div class="d-flex align-items-stretch flex-wrap mt-2 col-md-12 justify-content-center">
         {% for post in posts %}
-            <div class="card bg-dark text-white m-1" style="width: 32.2222222%">
+            <div class="card bg-dark text-white m-1" style="width: 30.33333333%; object-fit: cover">
+              <img class="card-img-top bg-secondary" src="{{ post.image.url }}" alt="{{ post.title}}" width="250px" height="250" style="object-fit: contain">
                 <div class="card-header h4 text-center"><a href="#">{{ post.title }}</a></div>
                 <div class="card-body text-center">{{ post.body }}</div>
                 <div class="card-footer">by <a
