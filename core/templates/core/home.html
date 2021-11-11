@@ -6,8 +6,11 @@
     <div class="d-flex flex-column align-items-center">
         {% for post in posts %}
             <div class="card bg-dark text-white col-md-6 mb-3">
-            <img class="card-img-top bg-secondary" src="{{ post.image.url }}" alt="{{ post.title}}" width="250px" height="250" style="object-fit: contain">
-                <div class="card-header h4 text-center"><a href="#">{{ post.title }}</a></div>
+                <div class="card-header h4 text-center"><a
+                        href="{% url "core:post" post.id post.slug %}">{{ post.title }}</a></div>
+                <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }}" width="250px"
+                     height="250" style="object-fit: contain">
+
                 <div class="card-body text-center">{{ post.body }}</div>
                 <div class="card-footer">by <a
                         href="{% url 'accounts:user_profile' post.user.username %}">@{{ post.user }}</a><small

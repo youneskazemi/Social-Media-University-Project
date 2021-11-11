@@ -14,6 +14,17 @@ class Home(View):
         return render(request, self.template_name, {'posts': Post.objects.all()})
 
 
+class UserPost(View):
+    template_name = 'core/post.html'
+
+    def get(self, request, post_id, post_slug):
+        post = get_object_or_404(Post, id=post_id, slug=post_slug)
+        return render(request, self.template_name, {'post': post})
+
+    def post(self):
+        pass
+
+
 class AddPost(View):
     form_class = AddPostForm
     template_name = 'core/add_post.html'

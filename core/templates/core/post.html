@@ -1,5 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}
+    {{ post.title }}
 {% endblock title %}
 {% block content %}
+    <div class="card bg-dark text-white">
+        <div class="card-header h2 text-center">{{ post.title }}</div>
+        <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }}" width="250px"
+             height="250" style="object-fit: contain">
+
+
+        <div class="card-body text-center bg-secondary">{{ post.body }}</div>
+        <div class="card-footer">by <a
+                href="{% url 'accounts:user_profile' post.user.username %}">@{{ post.user }}</a><small
+                class="float-right">{{ post.updated }}</small></div>
+    </div>
+
 {% endblock content %}

@@ -17,3 +17,15 @@ class Post(models.Model):
 
     class Meta:
         ordering = ('-updated',)
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='ucomment')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='pcomment')
+    reply = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True, blank=True, related_name='rcomment')
+    is_reply = models.BooleanField(default=False)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+
