@@ -15,25 +15,39 @@
                 class="float-right">{{ post.updated }}</small></div>
     </div>
     <hr>
+    <form action="" method="post">{% csrf_token %}
+        <p>Add Your Comment</p>
+        <p>{{ form.body }}</p>
+
+        <p class=""><input type="submit" class="btn btn-primary" value="Add Your Comment"></p>
+    </form>
     <h4 class="text-center">Comments</h4>
 
     {% for comment in comments %}
         <div class="card bg-primary text-white">
-        <p class="card-header"><a class="text-white"
-                                  href="{% url 'accounts:user_profile' comment.user.username %}">{{ comment.user }}</a>
-        </p>
-        <p class="card-body">{{ comment.body }}</p>
-        <p class="card-footer text-right">{{ comment.created }}</p>
-        {% for reply in comment.rcomment.all %}
-            <div class="ml-5 card bg-info text-white">
             <p class="card-header"><a class="text-white"
-                                      href="{% url 'accounts:user_profile' reply.user.username %}">{{ reply.user }}</a>
+                                      href="{% url 'accounts:user_profile' comment.user.username %}">{{ comment.user }}</a>
             </p>
-            <p class="card-body">{{ reply.body }}</p>
-            <p class="card-footer text-right">{{ reply.created }}</p>
-        {% endfor %}
-    </div>
+            <p class="card-body">{{ comment.body }}</p>
+            <p class="card-footer text-right">{{ comment.created }}</p>
+            <form class="col-md-6" action="{% url 'core:add_reply' post.id post.slug comment.id %}" method="post">{% csrf_token %}
+                <p>{{ form.body }}</p>
+
+                <p><input type="submit" class="btn btn-warning" value="Add Your Reply"></p>
+            </form>
+
+            {% for reply in comment.rcomment.all %}
+                <div class="ml-5 card bg-info text-white">
+                    <p class="card-header"><a class="text-white"
+                                              href="{% url 'accounts:user_profile' reply.user.username %}">{{ reply.user }}</a>
+                    </p>
+                    <p class="card-body">{{ reply.body }}</p>
+                    <p class="card-footer text-right">{{ reply.created }}</p>
+                </div>
+            {% endfor %}
+        </div>
 
     {% endfor %}
+
 
 {% endblock content %}
