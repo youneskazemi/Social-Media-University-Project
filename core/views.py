@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .models import Post
+from .models import Post, Comment
 from .forms import AddPostForm, EditPostForm
 from django.utils.text import slugify
 from django.contrib import messages
@@ -19,7 +19,8 @@ class UserPost(View):
 
     def get(self, request, post_id, post_slug):
         post = get_object_or_404(Post, id=post_id, slug=post_slug)
-        return render(request, self.template_name, {'post': post})
+        comments = Comment.objects.filter(post=post, is_reply=False)
+        return render(request, self.template_name, {'post': post, 'comments': comments})
 
     def post(self):
         pass
