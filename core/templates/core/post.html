@@ -16,7 +16,6 @@
     </div>
     <hr>
     <form action="" method="post">{% csrf_token %}
-        <p>Add Your Comment</p>
         <p>{{ form.body }}</p>
 
         <p class=""><input type="submit" class="btn btn-primary" value="Add Your Comment"></p>
@@ -24,9 +23,9 @@
     <h4 class="text-center">Comments</h4>
 
     {% for comment in comments %}
-        <div class="card bg-primary text-white">
-            <p class="card-header"><a class="text-white"
-                                      href="{% url 'accounts:user_profile' comment.user.username %}">{{ comment.user }}</a>
+        <div class="card bg-primary text-white mb-2">
+            <p class="card-header"><a class="text-white h3"
+                                      href="{% url 'accounts:user_profile' comment.user.username %}">@{{ comment.user }}</a>
             </p>
             <p class="card-body">{{ comment.body }}</p>
             <p class="card-footer text-right">{{ comment.created }}</p>
@@ -37,7 +36,7 @@
             </form>
 
             {% for reply in comment.rcomment.all %}
-                <div class="ml-5 card bg-info text-white">
+                <div class="ml-5 mb-2 mr-2 card bg-info text-white">
                     <p class="card-header"><a class="text-white"
                                               href="{% url 'accounts:user_profile' reply.user.username %}">{{ reply.user }}</a>
                     </p>

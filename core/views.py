@@ -4,6 +4,7 @@ from .models import Post, Comment
 from .forms import AddPostForm, EditPostForm, AddCommentReplyForm
 from django.utils.text import slugify
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class Home(View):
@@ -14,7 +15,7 @@ class Home(View):
         return render(request, self.template_name, {'posts': Post.objects.all()})
 
 
-class UserPost(View):
+class UserPost(LoginRequiredMixin, View):
     form_class = AddCommentReplyForm
     template_name = 'core/post.html'
 
@@ -36,7 +37,7 @@ class UserPost(View):
             return redirect('core:post', post_id, post_slug)
 
 
-class AddPost(View):
+class AddPost(LoginRequiredMixin, View):
     form_class = AddPostForm
     template_name = 'core/add_post.html'
 
@@ -54,7 +55,7 @@ class AddPost(View):
             return redirect("accounts:user_profile", request.user.username)
 
 
-class DeletePost(View):
+class DeletePost(LoginRequiredMixin, View):
     def get(self, request, post_id):
         post = get_object_or_404(Post, id=post_id)
         post.delete()
@@ -62,7 +63,7 @@ class DeletePost(View):
         return redirect("accounts:user_profile", request.user.username)
 
 
-class EditPost(View):
+class EditPost(LoginRequiredMixin, View):
     form_class = EditPostForm
     template_name = 'core/edit_post.html'
 
@@ -80,7 +81,7 @@ class EditPost(View):
             return redirect("accounts:user_profile", request.user.username)
 
 
-class Reply(View):
+class Reply(LoginRequiredMixin, View):
     form_class = AddCommentReplyForm
 
     def post(self, request, post_id, post_slug, comment_id):

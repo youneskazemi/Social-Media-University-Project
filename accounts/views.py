@@ -57,7 +57,7 @@ class UserRegister(View):
         return render(request, self.template_name, {'form': form})
 
 
-class UserProfile(View):
+class UserProfile(LoginRequiredMixin, View):
     form_class = None
     template_name = 'accounts/profile.html'
 
@@ -74,7 +74,7 @@ class UserProfile(View):
             return redirect('accounts:user_profile', request.user.username)
 
 
-class UserEditProfile(View):
+class UserEditProfile(LoginRequiredMixin, View):
     form_class = ProfileForm
     template_name = 'accounts/edit_profile.html'
 
