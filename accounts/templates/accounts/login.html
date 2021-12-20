@@ -8,6 +8,7 @@
         <input type="submit" value="Login" class="btn btn-primary">
     </form>
 
-    <a href="{% url "social:begin" "google-oauth2" %}" class="btn btn-danger mt-2">Google+</a>
+    <a href="{% url "social:begin" "google-oauth2" %}" class="btn btn-danger mt-2">Google+</a><br>
+    <a href="{% url "accounts:reset_password" %}"  class="btn btn-warning mt-2">Forgot Password</a>
 
 {% endblock content %}

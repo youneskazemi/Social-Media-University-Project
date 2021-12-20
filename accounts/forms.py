@@ -71,3 +71,20 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('full_name', 'age', 'image', 'bio')
+
+
+class EmailForm(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+
+class NumberForm(forms.Form):
+    number = forms.CharField()
+
+
+class ChangePasswordForm(forms.Form):
+    password1 = forms.CharField(label="Password", max_length=50,
+                                widget=forms.PasswordInput(attrs={"class": "form-control",
+                                                                  'placeholder': "Your Password"}))
+    password2 = forms.CharField(label="Confirm Password", max_length=50,
+                                widget=forms.PasswordInput(attrs={"class": "form-control",
+                                                                  'placeholder': "Confirm Password"}))

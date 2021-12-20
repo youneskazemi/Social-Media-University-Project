@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .forms import UserLoginForm, UserRegistrationForm, ProfileForm
+from .forms import UserLoginForm, UserRegistrationForm, ProfileForm, ChangePasswordForm, EmailForm, NumberForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import User as MyUser, Profile, Relation
 from core.models import Post
 from django.http import JsonResponse
+from django.core.mail import send_mail
+import random
 
 
 class UserLogin(View):
@@ -117,3 +119,59 @@ class unfollow(LoginRequiredMixin, View):
             return JsonResponse({'status': 'ok'})
         else:
             return JsonResponse({'status': 'notexists'})
+
+
+class send_email(View):
+    form_class = EmailForm
+    template_name = 'accounts/reset_password.html'
+
+    def get(self, request):
+        return render(request, self.template_name, {'form': self.form_class})
+
+    def post(self, request):
+        number = random.randint(1000, 9999)
+        subject = "Reset Password"
+        message = f"for rest your password enter {number}"
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            email = cd["email"]
+            send_mail(subject=subject, message=message, from_email="", recipient_list=[email],
+                      fail_silently=False)
+            return redirect("accounts:confirm_password", number, email)
+
+
+class confirm_password(View):
+    form_class = NumberForm
+    template_name = 'accounts/confirm_password.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {'form': self.form_class})
+
+    def post(self, request, number, email):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            if cd['number'] == number:
+                return redirect("accounts:change_password", email)
+            else:
+                messages.error(request, "number is invalid", "warning")
+                return redirect("accounts:confirm_password", number, email)
+
+
+class change_password(View):
+    template_name = "accounts/change_password.html"
+    form_class = ChangePasswordForm
+
+    def get(self, request, *args, **kwargs):
+        return render(request, "accounts/change_password.html", {"form": self.form_class})
+
+    def post(self, request, email):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = get_object_or_404(MyUser, email=email)
+            user.set_password(cd['password1'])
+            user.save()
+            messages.success(request, "your password successfully changed!", "success")
+            return redirect("core:home")
