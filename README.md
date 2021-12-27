@@ -1,4 +1,5 @@
-# Social-Media-University-Project-
+# Social-Media-University-Project
+Contact [ParadoX]{sadknight78@gmail.com}
 This is a Social Media Project
 1.User can register by Username , Email and Password
 2.Every user has a unique profile
