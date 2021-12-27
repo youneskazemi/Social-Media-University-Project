@@ -18,3 +18,6 @@ python manage.py runserver
 5.all posts shows in the main page
 6.you can login with your email
 7.if you forgot your password you can retrive it by sending an emal
+
+
+IMPORTANT : Don't Forgot to config your settings in SocialMedia/settings.py
