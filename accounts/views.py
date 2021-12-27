@@ -66,8 +66,10 @@ class UserProfile(LoginRequiredMixin, View):
 
     def get(self, request, username):
         user = get_object_or_404(MyUser, username=username)
-        following = Relation.objects.filter(from_user=user)
+        followings = Relation.objects.filter(from_user=user)
         followers = Relation.objects.filter(to_user=user)
+        for j in followings:
+            print(j.to_user)
         relation = Relation.objects.filter(from_user=request.user, to_user=user)
         posts = Post.objects.filter(user=user)
         is_following = False
@@ -76,7 +78,7 @@ class UserProfile(LoginRequiredMixin, View):
 
         return render(request, self.template_name,
                       {'user': user, 'posts': posts, 'is_following': is_following, 'followers': followers,
-                       'following': following})
+                       'followings': followings})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES, instance=request.user.profile)
