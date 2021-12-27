@@ -22,7 +22,17 @@
         <img class="rounded-circle" src="{{ user.profile.image.url }}" alt="Card image cap" width="200"
              height="200" style="object-fit: cover">
         <div class="card rounded mx-auto bg-dark text-white col-md-9 mt-3">
-            <p class="card-header">{{ user.username }}</p>
+            <div class="card-header">
+                <span class="h4">{{ user.username }}</span>
+                <div class="float-right">
+                    <a class="mr-2"><span class="rounded-circle bg-info pl-2 p-1 pr-2" style="font-weight: bold">{{ posts.count }}</span> Posts</a>
+                    <a class="mr-2"><span class="rounded-circle bg-info pl-2 p-1 pr-2" style="font-weight: bold">{{ followers.count }}</span>
+                        Followers</a>
+                    <a class="mr-2"><span class="rounded-circle bg-info pl-2 p-1 pr-2" style="font-weight: bold">{{ following.count }}</span>
+                        Following</a>
+                </div>
+
+            </div>
             <p class="card-body">{{ user.profile.bio }}</p>
 
 

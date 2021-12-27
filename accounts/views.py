@@ -66,13 +66,17 @@ class UserProfile(LoginRequiredMixin, View):
 
     def get(self, request, username):
         user = get_object_or_404(MyUser, username=username)
+        following = Relation.objects.filter(from_user=user)
+        followers = Relation.objects.filter(to_user=user)
         relation = Relation.objects.filter(from_user=request.user, to_user=user)
         posts = Post.objects.filter(user=user)
         is_following = False
         if relation.exists():
             is_following = True
 
-        return render(request, self.template_name, {'user': user, 'posts': posts, 'is_following': is_following})
+        return render(request, self.template_name,
+                      {'user': user, 'posts': posts, 'is_following': is_following, 'followers': followers,
+                       'following': following})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES, instance=request.user.profile)
@@ -136,9 +140,15 @@ class send_email(View):
         if form.is_valid():
             cd = form.cleaned_data
             email = cd["email"]
-            send_mail(subject=subject, message=message, from_email="", recipient_list=[email],
-                      fail_silently=False)
-            return redirect("accounts:confirm_password", number, email)
+            user = MyUser.objects.filter(email=email)
+            if user.exists():
+                send_mail(subject=subject, message=message, from_email="", recipient_list=[email],
+                          fail_silently=False)
+                messages.success(request, "code successfully sent, check your email", 'success')
+                return redirect("accounts:confirm_password", number, email)
+            else:
+                messages.warning(request, "this email does not exist", 'warning')
+                return redirect("accounts:reset_password")
 
 
 class confirm_password(View):
