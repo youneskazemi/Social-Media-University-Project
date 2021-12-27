@@ -1,5 +1,9 @@
 # Social-Media-University-Project
-Contact [ParadoX]{sadknight78@gmail.com}
+Contact [ParadoX](sadknight78@gmail.com)
+to start project you need to first install requirements by code bellow
+'''python
+pip install requirements.text
+'''
 This is a Social Media Project
 1.User can register by Username , Email and Password
 2.Every user has a unique profile
