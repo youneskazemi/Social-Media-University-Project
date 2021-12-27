@@ -80,12 +80,14 @@ class UserProfile(LoginRequiredMixin, View):
                       {'user': user, 'posts': posts, 'is_following': is_following, 'followers': followers,
                        'followings': followings})
 
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your profile updated successfully', 'success')
-            return redirect('accounts:user_profile', request.user.username)
+    # def post(self, request, *args, **kwargs):
+    #     form = self.form_class(request.POST, request.FILES, instance=request.user.profile)
+    #     if form.is_valid():
+    #         form.save()
+    #         messages.success(request, 'Your profile updated successfully', 'success')
+    #         return redirect('accounts:user_profile', request.user.username)
+    #     else:
+    #         return render(request, self.template_name, {'form': form})
 
 
 class UserEditProfile(LoginRequiredMixin, View):
@@ -101,6 +103,8 @@ class UserEditProfile(LoginRequiredMixin, View):
             form.save()
             messages.success(request, 'Your profile updated successfully', 'success')
             return redirect('accounts:user_profile', request.user.username)
+        else:
+            return render(request, self.template_name, {'form': form})
 
 
 class follow(LoginRequiredMixin, View):
@@ -151,6 +155,8 @@ class send_email(View):
             else:
                 messages.warning(request, "this email does not exist", 'warning')
                 return redirect("accounts:reset_password")
+        else:
+            return render(request, self.template_name, {'form': form})
 
 
 class confirm_password(View):
@@ -169,6 +175,8 @@ class confirm_password(View):
             else:
                 messages.error(request, "number is invalid", "warning")
                 return redirect("accounts:confirm_password", number, email)
+        else:
+            return render(request, self.template_name, {'form': form})
 
 
 class change_password(View):
@@ -186,4 +194,6 @@ class change_password(View):
             user.set_password(cd['password1'])
             user.save()
             messages.success(request, "your password successfully changed!", "success")
-            return redirect("core:home")
+            return redirect("accounts:user_login")
+        else:
+            return render(request, "accounts/change_password.html", {"form": form})
