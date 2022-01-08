@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .managers import UserManager
-import datetime
+from sorl.thumbnail import ImageField
 
 
 class User(AbstractUser):
@@ -39,7 +39,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     full_name = models.CharField(max_length=100, blank=True, null=True)
     age = models.PositiveIntegerField(null=True, blank=True)
-    image = models.ImageField(default='1.jpg')
+    image = ImageField(default='1.jpg')
     bio = models.TextField(null=True, blank=True)
 
     def __str__(self):
