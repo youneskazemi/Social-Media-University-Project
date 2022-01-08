@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     # Third-party apps
     'social_django',
     'storages',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -57,9 +58,9 @@ WSGI_APPLICATION = 'SocialMedia.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'uni-social-media',
+        'NAME': 'SM-Uni',
         'USER': 'postgres',
-        'PASSWORD': '28',
+        'PASSWORD': 'root',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -126,15 +127,15 @@ SOCIAL_AUTH_USER_MODEL = 'accounts.User'
 # ARVAN CLOUD
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_S3_ACCESS_KEY_ID = 'AWS_S3_ACCESS_KEY_ID'
-AWS_S3_SECRET_ACCESS_KEY = 'AWS_S3_SECRET_ACCESS_KEY'
-AWS_STORAGE_BUCKET_NAME = 'AWS_STORAGE_BUCKET_NAME'
-AWS_S3_ENDPOINT_URL = 'AWS_S3_ENDPOINT_URL'
+AWS_S3_ACCESS_KEY_ID = '85ff0b31-d967-4645-bc6f-b7aac0730504'
+AWS_S3_SECRET_ACCESS_KEY = '2f6077ec7582a46a7dcd8d7834b84fdd394510230af209e71b2d6a9797050a78'
+AWS_STORAGE_BUCKET_NAME = 'paradox-uni'
+AWS_S3_ENDPOINT_URL = 'https://s3.ir-thr-at1.arvanstorage.com'
 
 # Email Setting
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'youremail
-EMAIL_HOST_PASSWORD = 'yourpassword'
+EMAIL_HOST_USER = 'sadknight78@gmail.com'
+EMAIL_HOST_PASSWORD = 'qrnjszmngfbdzqlv'

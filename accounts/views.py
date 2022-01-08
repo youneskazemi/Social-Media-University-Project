@@ -54,7 +54,7 @@ class UserRegister(View):
             user = MyUser.objects.create_user(email=cd['email'], username=cd['username'], password=cd['password1'])
             Profile.objects.create(user=user, full_name=user.username)
             messages.success(request, 'You registered successfully', 'success')
-            return redirect('core:home')
+            return redirect('accounts:user_login')
         else:
             messages.error(request, "Error", 'danger')
         return render(request, self.template_name, {'form': form})

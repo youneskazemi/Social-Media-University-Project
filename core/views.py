@@ -5,6 +5,8 @@ from .forms import AddPostForm, EditPostForm, AddCommentReplyForm
 from django.utils.text import slugify
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from accounts.models import User as MyUser
+from random import sample
 
 
 class Home(View):
@@ -12,7 +14,9 @@ class Home(View):
     template_name = 'core/home.html'
 
     def get(self, request):
-        return render(request, self.template_name, {'posts': Post.objects.all()})
+        users = MyUser.objects.all()
+        users = sample(list(users), int(len(users) * 5 / 100) + 1)
+        return render(request, self.template_name, {'posts': Post.objects.all(), 'users': users})
 
 
 class UserPost(LoginRequiredMixin, View):
