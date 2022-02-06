@@ -3,40 +3,44 @@
     {{ post.title }}
 {% endblock title %}
 {% block content %}
-    <div class="card bg-dark text-white mx-auto col-md-8">
+    <div class="card bg-dark text-white mx-auto col-md-10 mb-5">
         <div class="card-header h2 text-center">{{ post.title }}</div>
         <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }}" width="250px"
              height="250" style="object-fit: contain">
 
 
-        <div class="card-body text-center bg-secondary">{{ post.body }}</div>
+        <div class="card-body text-center bg-secondary mt-1 rounded">{{ post.body }}</div>
         <div class="card-footer">by <a
                 href="{% url 'accounts:user_profile' post.user.username %}">@{{ post.user }}</a><small
                 class="float-right">{{ post.updated }}</small></div>
     </div>
+    {% if request.user.is_authenticated %}
+        <a href="{% url "core:like" post.id %}" class="btn btn-primary {% if can_like %} disabled {% endif %}col-md-2">Like {{ post.count_like }}</a>
+    {% endif %}
     <hr>
-    <form action="" method="post">{% csrf_token %}
+    <form action="" method="post" class="col-md-6">{% csrf_token %}
         <p>{{ form.body }}</p>
 
-        <p class=""><input type="submit" class="btn btn-primary" value="Add Your Comment"></p>
+        <p class=""><input type="submit" class="btn btn-primary" value="Submit"></p>
     </form>
     <h4 class="text-center">Comments</h4>
 
     {% for comment in comments %}
-        <div class="card bg-primary text-white mb-2">
+        <div class="card bg-primary text-white mb-2 col-md-8 mx-auto">
             <p class="card-header"><a class="text-white h3"
                                       href="{% url 'accounts:user_profile' comment.user.username %}">@{{ comment.user }}</a>
             </p>
-            <p class="card-body">{{ comment.body }}</p>
+            <p class="card-body col-md-6">{{ comment.body }}</p>
             <p class="card-footer text-right">{{ comment.created }}</p>
-            <form class="col-md-6" action="{% url 'core:add_reply' post.id post.slug comment.id %}" method="post">{% csrf_token %}
+            <form class="col-md-6" action="{% url 'core:add_reply' post.id post.slug comment.id %}"
+                  method="post">{% csrf_token %}
                 <p>{{ form.body }}</p>
 
-                <p><input type="submit" class="btn btn-warning" value="Add Your Reply"></p>
+                <p><input type="submit" class="btn btn-warning" value="Submit"></p>
             </form>
 
             {% for reply in comment.rcomment.all %}
-                <div class="ml-5 mb-2 mr-2 card bg-info text-white">
+                <div class="ml-5 mb-2 mr-2 card bg-info text-white col-md-10">
                     <p class="card-header"><a class="text-white"
                                               href="{% url 'accounts:user_profile' reply.user.username %}">{{ reply.user }}</a>
                     </p>

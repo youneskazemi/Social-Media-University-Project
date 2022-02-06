@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .models import Post, Comment
+from .models import Post, Comment, Like
 from .forms import AddPostForm, EditPostForm, AddCommentReplyForm
 from django.utils.text import slugify
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.models import User as MyUser
 from random import sample
+from django.http import HttpResponseRedirect
 
 
 class Home(View):
@@ -26,8 +27,12 @@ class UserPost(LoginRequiredMixin, View):
     def get(self, request, post_id, post_slug):
         post = get_object_or_404(Post, id=post_id, slug=post_slug)
         comments = Comment.objects.filter(post=post, is_reply=False)
+        can_like = False
+        if request.user.is_authenticated:
+            if post.user_can_like(request.user):
+                can_like = True
         return render(request, self.template_name,
-                      {'post': post, 'comments': comments, 'form': self.form_class})
+                      {'post': post, 'comments': comments, 'form': self.form_class, 'can_like': can_like})
 
     def post(self, request, post_id, post_slug):
         form = self.form_class(request.POST)
@@ -101,3 +106,12 @@ class Reply(LoginRequiredMixin, View):
             reply.save()
             messages.success(request, "Your reply submitted successfully!", 'success')
             return redirect('core:post', post_id, post_slug)
+
+
+class UserLike(LoginRequiredMixin, View):
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        like = Like(user_like=request.user, post_list=post)
+        like.save()
+        messages.success(request, "Liked!", 'success')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

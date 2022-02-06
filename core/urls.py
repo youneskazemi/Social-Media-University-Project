@@ -10,4 +10,5 @@ urlpatterns = [
     path('edit_post/<post_id>/', views.EditPost.as_view(), name='edit_post'),
     path('post/<post_id>/<post_slug>/', views.UserPost.as_view(), name='post'),
     path('add_reply/<post_id>/<post_slug>/<comment_id>/', views.Reply.as_view(), name='add_reply'),
+    path("like/<int:post_id>/", views.UserLike.as_view(), name="like"),
 ]

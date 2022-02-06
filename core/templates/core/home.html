@@ -11,7 +11,7 @@
                 <div class="card bg-dark text-white col-md-10 mb-3">
                     <div class="card-header h4 text-center"><a
                             href="{% url "core:post" post.id post.slug %}">{{ post.title }}</a></div>
-                    {% thumbnail post.image "250x250" crop="center" as im %}
+                    {% thumbnail post.image "350x350" as im %}
                         <img class="card-img-top m-2" src="{{ im.url }}" alt="{{ post.title }}" width={{ im.width }}
                                 height="250" style="object-fit: contain">
                     {% endthumbnail %}
